@@ -25,6 +25,13 @@ describe DockingStation do
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
+
+    it 'checks if bike is broken' do
+      bike = Bike.new
+      bike.report_broken
+      subject.dock(bike)
+      expect { subject.release_bike }.to raise_error 'This bike is broken'
+    end
   end
 
   describe '#release_bike' do # then this bit ere raises an error if no bikes are available
@@ -65,14 +72,10 @@ describe DockingStation do
     end
   end
 
-  # describe "initialization" do
-  #   subject { DockingStation.new }
-  #   let(:bike) { Bike.new }
-  #   it 'defaults capacity' do
-  #     described_class::DEFAULT_CAPACITY.times do
-  #       subject.dock(bike)
-  #   end
-  #   expect{ subject.dock(bike) }.to raise_error 'Docking station full'
-  # end
-  # end
+
 end
+
+
+# As a maintainer of the system,
+# So that I can manage broken bikes and not disappoint users,
+# I'd like docking stations not to release broken bikes.
